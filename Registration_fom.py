@@ -1,0 +1,173 @@
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+from tkinter import filedialog
+
+class Registration_Form :
+    
+    def __init__(self) :
+        self.root = tk.Tk()
+
+        # Menus
+        self.menu_bar = tk.Menu(self.root)
+        self.root.config(menu=self.menu_bar)
+        self.file_menu = tk.Menu(self.menu_bar , tearoff=0)
+        self.menu_bar.add_cascade(label="File" , menu=self.file_menu)
+        self.file_menu.add_command(label="New file  " , command=lambda :messagebox.showinfo("Success", "New file is created sucessfully.") )
+        self.file_menu.add_command(label="Open file" , command=lambda: filedialog.askopenfilename(title="Open file") )
+        self.file_menu.add_command(label="Recent files" )
+        self.file_menu.add_separator()
+        self.file_menu.add_command(label="Save    ")
+        self.file_menu.add_command(label="Save as " ,command=lambda: filedialog.askopenfilename(title="Save as") )
+        self.file_menu.add_separator()
+        self.file_menu.add_command(label="Quit  "  , command=self.app_quit)
+        
+
+
+        # Note_book
+        self.Tabs = ttk.Notebook(self.root)
+        # Frame
+        self.registrationTab = ttk.Frame(self.Tabs)
+        self.loginTab = ttk.Frame(self.Tabs)
+
+        self.Tabs.add(self.registrationTab , text="Registration")
+        self.Tabs.add(self.loginTab , text="Login")
+
+
+        self.Tabs.pack(expand=1, fill="y") # you can use fill= "none ,x ,y, both"
+
+        # initializing Tabs
+        self.init_regitration_tab()
+        self.init_login_tab()
+
+        # Window Size
+        self.root.title("Widgets App")
+        self.root.geometry("650x500")
+
+        self.root.mainloop()
+    
+
+    def init_regitration_tab(self):  # Intialization Function for Registration Tab
+
+        frame_title = ttk.LabelFrame(self.registrationTab , text="Registation" )
+        frame_title.grid(row=0 , column=0 ,padx=10)
+
+
+        #Email
+        # Labels
+        lable_Name = ttk.Label(frame_title , text="Email :" , font=('Arial' , 10))
+        lable_Name.grid(row=1 , column=0 ,  padx=5 , pady=5 ,sticky=tk.W)
+        # Entry
+        entry_name = ttk.Entry(frame_title  , font=('Arial' , 10) )
+        entry_name.grid(row=1 , column=1 , padx=5 , pady=5 ,sticky=tk.W)
+
+        #Password
+        # Labels
+        lable_Name = ttk.Label(frame_title , text="Password :" , font=('Arial' , 10))
+        lable_Name.grid(row=2 , column=0 ,  padx=5 , pady=5 ,sticky=tk.W)
+        # Entry
+        entry_name = ttk.Entry(frame_title  , font=('Arial' , 10) )
+        entry_name.grid(row=2 , column=1 , padx=5 , pady=5 ,sticky=tk.W)
+
+        #Confirm Password
+        # Labels
+        lable_Name = ttk.Label(frame_title , text="Confirm Password :" , font=('Arial' , 10))
+        lable_Name.grid(row=3 , column=0 ,  padx=5 , pady=5 ,sticky=tk.W)
+        # Entry
+        entry_name = ttk.Entry(frame_title  , font=('Arial' , 10) ,show="*" )
+        entry_name.grid(row=3 , column=1 , padx=5 , pady=5 ,sticky=tk.W)
+
+        #First Name
+        # Labels
+        lable_Name = ttk.Label(frame_title , text="First Name :" , font=('Arial' , 10))
+        lable_Name.grid(row=4 , column=0 ,  padx=5 , pady=5 ,sticky=tk.W)
+        # Entry
+        entry_name = ttk.Entry(frame_title  , font=('Arial' , 10) )
+        entry_name.grid(row=4 , column=1 , padx=5 , pady=5 ,sticky=tk.W)
+
+        #Last Name
+        # Labels
+        lable_Name = ttk.Label(frame_title , text="Last Name :" , font=('Arial' , 10))
+        lable_Name.grid(row=4 , column=2 ,  padx=10 , pady=5,sticky=tk.W )
+        # Entry
+        entry_name = ttk.Entry(frame_title  , font=('Arial' , 10) )
+        entry_name.grid(row=4 , column=3 , padx=5 , pady=5 ,sticky=tk.W)
+
+
+        #Radio btns
+        gender_value = tk.StringVar()
+        gender_male = ttk.Radiobutton(frame_title , text="Male" , variable=gender_value , value="Male")
+        gender_male.grid(row=5 , column=0 ,padx=5, pady=15 , sticky=tk.W)
+        gender_female = ttk.Radiobutton(frame_title , text="Female" , variable=gender_value , value="Female")
+        gender_female.grid(row=5 , column=1, padx=5, pady=15 ,sticky=tk.W)
+
+
+        #Country 
+        lable_country = ttk.Label(frame_title , text="Chose your Country :" , font=('Arial' , 8))
+        lable_country.grid(row=6 , column=0 ,  padx=5 , pady=5 ,sticky=tk.W)
+        country_value = ['Choose one','Pakistan' , 'India' , 'China' , 'Bangladesh' , 'United States' , 'Iran' , 'Saudia Arabia']
+        country_dropdown = ttk.Combobox(frame_title ,  values= country_value)
+        country_dropdown.set(value=country_value[0])
+        country_dropdown.grid(row=6 , column=1 , padx=2 , pady=5 ,sticky=tk.W)
+
+        #Checkbox btns
+        term_check = ttk.Checkbutton(frame_title , text="I agree with terms and conditions" )
+        term_check.grid(row=7 , column=0 ,padx=5, pady=15 , sticky=tk.W)
+        newsletter_check = ttk.Checkbutton(frame_title , text="I want to recieve the news-letters"  )
+        newsletter_check.grid(row=8 , column=0 ,padx=5, sticky=tk.W)
+
+        #Registration Button
+        register_btn = ttk.Button(frame_title , text="Register" ,command=self.registered_sucess)
+        register_btn.grid (row=9 , column=0 , padx=5, pady=10 , sticky=tk.W+tk.E)
+
+    def init_login_tab(self): # Intialization Function for Login Tab
+
+        frame_title = ttk.LabelFrame(self.loginTab , text="Login")
+        frame_title.grid(row=0 , column=0 ,  padx=20, pady=5)
+
+        #Email
+        # Labels
+        lable_Name = ttk.Label(frame_title , text="Email :" , font=('Arial' , 10))
+        lable_Name.grid(row=1 , column=0 ,  padx=5 , pady=5 ,sticky=tk.W)
+        # Entry
+        entry_name = ttk.Entry(frame_title  , font=('Arial' , 10) )
+        entry_name.grid(row=1 , column=1 , padx=5 , pady=5 ,sticky=tk.W)
+
+        #Password
+        # Labels
+        lable_Name = ttk.Label(frame_title , text="Password :" , font=('Arial' , 10))
+        lable_Name.grid(row=2 , column=0 ,  padx=5 , pady=5 ,sticky=tk.W)
+        # Entry
+        entry_name = ttk.Entry(frame_title  , font=('Arial' , 10) , show="*" )
+        entry_name.grid(row=2 , column=1 , padx=5 , pady=5 ,sticky=tk.W)
+        
+        #Remember_me check
+        Remember_check = ttk.Checkbutton(frame_title , text="Remember me" )
+        Remember_check.grid(row=3 , column=0 ,padx=5 , pady=20 , sticky=tk.W)
+
+        #empty labels
+        space_labels = ttk.Label(frame_title , text="")
+        space_labels.grid(row=4 , column=0)
+        space_labels = ttk.Label(frame_title , text="")
+        space_labels.grid(row=5 , column=0)
+        
+        #Login Button
+        register_btn = ttk.Button(frame_title , text="LOGIN" ,command=self.login_sucess)
+        register_btn.grid (row=6, column=0 , padx=5, pady=10 , sticky=tk.W+tk.E)
+
+
+    def registered_sucess(self, *entries):
+        messagebox.showinfo("Success", "Registration is done sucessfully.")
+
+
+    def login_sucess(self, *entries):
+        messagebox.showinfo("Success", "Sucessfully Log-In")
+
+    def app_quit(self):
+        if messagebox.askyesno(title="Quit?" , message="Do you really want to quit ?"):
+            self.root.destroy()
+
+
+# calling the application Class 
+Registration_Form()
+    
